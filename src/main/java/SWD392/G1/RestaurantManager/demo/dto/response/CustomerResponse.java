@@ -10,8 +10,8 @@ import lombok.experimental.FieldDefaults;
 public class CustomerResponse {
     private Long id;
     private String phoneNumber;
-    private String name;
-    private String address;
+    private String name;   
+    private String address; 
     private float point;
   
 
