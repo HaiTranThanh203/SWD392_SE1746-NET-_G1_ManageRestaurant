@@ -2,10 +2,11 @@ import LOGO from "../../../assets/zeroTable.jpg";
 import { FaBars, FaXmark } from "react-icons/fa6";
 import { useState } from "react";
 import { Link } from "react-scroll";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const navigate = useNavigate();
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -16,7 +17,9 @@ const NavBar = () => {
         { link: "Platform", path: "about" },
         { link: "Pricing", path: "pricing" },
     ];
-
+    const handleLogin = () => {
+        navigate("/hostess/map");
+    };
     return (
         <>
             <nav className="bg-white md:px-14 p-4 w-full mx-auto text-primary fixed top-0 right-0 left-0">
@@ -53,7 +56,10 @@ const NavBar = () => {
                         </ul>
                     </div>
                     <div className="space-x-12 hidden md:flex items-center">
-                        <button className="bg-secondary py-2 px-4 transition-all duration-300 rounded hover:text-white hover:bg-indigo-600 ">
+                        <button
+                            className="bg-secondary py-2 px-4 transition-all duration-300 rounded hover:text-white hover:bg-indigo-600 "
+                            onClick={handleLogin}
+                        >
                             Sign In
                         </button>
                     </div>
