@@ -1,45 +1,36 @@
 import { useEffect, useState } from "react";
-import { BiSolidDish } from "react-icons/bi";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { toast } from "react-toastify";
 import LOGO from "../../assets/VIET.png";
-import Table from "../../component/managerComponent/RestaunrantMap/Table";
 import { MdTableBar, MdLocationOn } from "react-icons/md";
-import { IoMdRefreshCircle } from "react-icons/io";
 import NavBarHostess from "../../component/staffComponent/NavBarHostess";
 
 function MapHostess() {
     // Mock data
-    const areaList = [{ name: "Khu A" }, { name: "Khu B" }, { name: "Khu C" }];
-
     const board = [
-        { name: "Bàn 1", booked: false, orderCurrent: null },
-        { name: "Bàn 2", booked: true, orderCurrent: "Order 123" },
-        { name: "Bàn 3", booked: false, orderCurrent: null },
-        { name: "Bàn 4", booked: true, orderCurrent: "Order 456" },
-        { name: "Bàn 5", booked: false, orderCurrent: null },
-        { name: "Bàn 6", booked: true, orderCurrent: "Order 789" },
+        { name: "Table 1", booked: false, orderCurrent: null },
+        { name: "Table 2", booked: true, orderCurrent: "Order 123" },
+        { name: "Table 3", booked: false, orderCurrent: null },
+        { name: "Table 4", booked: true, orderCurrent: "Order 456" },
+        { name: "Table 5", booked: false, orderCurrent: null },
+        { name: "Table 6", booked: true, orderCurrent: "Order 789" },
     ];
 
     const listSchedule = [
         {
-            customerName: "Nguyễn Văn A",
+            customerName: "Nguyen Van A",
             customerPhone: "0123456789",
             time: "12:00",
             numbersOfCustomer: 4,
             intendTime: "13:00",
-            deposit: 100000,
-            note: "Yêu cầu chỗ ngồi gần cửa sổ",
+            note: "Request a window seat",
             status: "PENDING",
         },
         {
-            customerName: "Trần Thị B",
+            customerName: "Tran Thi B",
             customerPhone: "0987654321",
             time: "12:30",
             numbersOfCustomer: 2,
             intendTime: "14:00",
-            deposit: 50000,
             note: "",
             status: "ACCEPT",
         },
@@ -48,8 +39,6 @@ function MapHostess() {
     const [isOpen, setIsOpen] = useState(false);
     const [currentTable, setCurrentTable] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const size = 5; // Số lượng đặt bàn mỗi trang
-    const totalSchedules = listSchedule.length;
 
     const navigate = useNavigate();
 
@@ -74,33 +63,14 @@ function MapHostess() {
                         />
                         <h1 className="text-white text-[20px] leading-[24px] font-extrabold cursor-pointer">
                             {" "}
-                            VietKitchen
+                            Group4
                         </h1>
                     </div>
 
+                    <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]"></div>
                     <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
                         <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">
-                            {" "}
-                            Khu vực
-                        </p>
-                        {areaList.map((area, index) => (
-                            <div
-                                className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
-                                // onClick={() => handleChangeArea(area)}
-                                key={index}
-                            >
-                                <div className="flex items-center gap-[10px]">
-                                    <MdLocationOn color="white" />{" "}
-                                    <p className="text-[14px] leading-[20px] font-normal text-white">
-                                        {area.name}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
-                        <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">
-                            Chức năng
+                            Function
                         </p>
                         <div
                             className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
@@ -109,7 +79,7 @@ function MapHostess() {
                             <div className="flex items-center gap-[10px]">
                                 <MdTableBar color="white" />{" "}
                                 <p className="text-[14px] leading-[20px] font-normal text-white">
-                                    Đặt bàn
+                                    Book a table
                                 </p>
                             </div>
                         </div>
@@ -141,13 +111,13 @@ function MapHostess() {
                                         }`}
                                     >
                                         {table.orderCurrent === null
-                                            ? "Bàn trống"
-                                            : "Có khách"}
+                                            ? "Empty table"
+                                            : "Occupied"}
                                     </span>
                                     <span
                                         className={`block mt-2 text-sm font-semibold text-blue-600`}
                                     >
-                                        {table.booked ? "Đã được đặt" : ""}
+                                        {table.booked ? "Already booked" : ""}
                                     </span>
                                 </div>
                             </div>
@@ -184,8 +154,7 @@ function MapHostess() {
                             </button>
                             <div className="w-full flex justify-center items-center mb-4 border-b-2 pb-2 pt-4 bg-slate-200 rounded-t-lg">
                                 <h2 className="font-bold text-lg">
-                                    Danh sách các đơn đặt bàn -{" "}
-                                    {currentTable.name}
+                                    Table Reservations - {currentTable.name}
                                 </h2>
                             </div>
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -196,49 +165,43 @@ function MapHostess() {
                                                 scope="col"
                                                 className="px-6 py-3"
                                             >
-                                                Khách hàng
+                                                Customer
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3"
                                             >
-                                                Số điện thoại
+                                                Phone Number
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3"
                                             >
-                                                Thời gian
+                                                Time
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3"
                                             >
-                                                Số khách
+                                                Number of Guests
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3"
                                             >
-                                                Ý định
+                                                Intended Time
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3"
                                             >
-                                                Đặt cọc
+                                                Note
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3"
                                             >
-                                                Ghi chú
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                Trạng thái
+                                                Status
                                             </th>
                                         </tr>
                                     </thead>
@@ -264,10 +227,7 @@ function MapHostess() {
                                                     {schedule.intendTime}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    {schedule.deposit}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {schedule.note || "-"}
+                                                    {schedule.note}
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     {schedule.status}

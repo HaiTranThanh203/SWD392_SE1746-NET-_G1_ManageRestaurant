@@ -17,11 +17,11 @@ const Footer = () => {
                             alt=""
                             className="w-10 max-w-[500px] rounded-full inline-block items-center"
                         />
-                        <span className="text-white">VietKitchen</span>
+                        <span className="text-white">Group 4</span>
                     </a>
 
                     <p className="md:w-1/2">
-                        VietKitchen restaurant management software brings
+                        Group 4 restaurant management software brings
                         convenience and optimizes time in customer and order
                         management for your restaurant.
                     </p>

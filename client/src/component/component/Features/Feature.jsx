@@ -17,12 +17,12 @@ const Feature = () => {
                     className="lg:w-1/4"
                 >
                     <h3 className="text-3xl text-primary font-bold lg:w-1/2 mb-3">
-                        VietKitchen
+                        Group 4
                     </h3>
                     <p className="text-base text-tartiary">
                         Want to enhance customer experience and improve business
-                        efficiency? VietKitchen helps you achieve that with
-                        limitless possibilities.
+                        efficiency?Page helps you achieve that with limitless
+                        possibilities.
                     </p>
                 </motion.div>
 
