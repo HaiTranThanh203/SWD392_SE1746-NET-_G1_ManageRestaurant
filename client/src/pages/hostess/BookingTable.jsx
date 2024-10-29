@@ -8,6 +8,8 @@ import { GiAlarmClock } from "react-icons/gi";
 import { HiUsers } from "react-icons/hi2";
 import BookingModal from "./AddOrUpdateBooking";
 import { FaTrashAlt } from "react-icons/fa";
+import ConfirmationModal from "./ConfirmationModal";
+import { toast, ToastContainer } from "react-toastify";
 
 function BookingTable() {
     const [isOpenBooking, setIsOpenBooking] = useState(false);
@@ -15,7 +17,17 @@ function BookingTable() {
     const [isOpenShowInformation, setIsOpenShowInformation] = useState(false);
     const [statusTime, setStatusTime] = useState("all");
     const navigate = useNavigate();
+    const [isOpenConfirmDelete, setIsOpenConfirmDelete] = useState(false);
+    const [bookingToDelete, setBookingToDelete] = useState(null);
     const [initialData, setInitialData] = useState(null);
+
+    const availableTables = [
+        { id: 1, name: "Table 1", capacity: 4 },
+        { id: 2, name: "Table 2", capacity: 2 },
+        { id: 3, name: "Table 3", capacity: 6 },
+        { id: 4, name: "Table 4", capacity: 8 },
+        { id: 5, name: "Table 5", capacity: 4 },
+    ];
     const [listBookingTables, setListBookingTables] = useState([
         {
             id: 1,
@@ -80,10 +92,12 @@ function BookingTable() {
     const handleBookingSubmit = (data) => {
         if (isAddBooking) {
             setListBookingTables((prevList) => [...prevList, data]);
+            toast.success("Create success!");
         } else {
             setListBookingTables((prevList) =>
                 prevList.map((item) => (item.id === data.id ? data : item))
             );
+            toast.success("Update success!");
         }
     };
 
@@ -100,12 +114,34 @@ function BookingTable() {
     };
 
     const handleDeleteBooking = (id) => {
-        setListBookingTables((prevList) =>
-            prevList.filter((item) => item.id !== id)
-        );
+        setBookingToDelete(id);
+        setIsOpenConfirmDelete(true);
     };
+
+    const confirmDeleteBooking = () => {
+        setListBookingTables((prevList) =>
+            prevList.filter((item) => item.id !== bookingToDelete)
+        );
+        setIsOpenConfirmDelete(false);
+        setBookingToDelete(null);
+    };
+
+    const cancelDeleteBooking = () => {
+        setIsOpenConfirmDelete(false);
+        setBookingToDelete(null);
+    };
+
     return (
         <div className="flex">
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                closeOnClick
+                pauseOnHover
+                draggable
+                pauseOnFocusLoss
+            />
             <div className="basis-[12%] h-[100vh]">
                 <div className="bg-primary px-[25px] h-screen relative">
                     <div className="px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3] ">
@@ -272,6 +308,12 @@ function BookingTable() {
                 mode={isAddBooking ? "add" : "edit"}
                 onSubmit={handleBookingSubmit}
                 initialData={initialData}
+                availableTables={availableTables}
+            />
+            <ConfirmationModal
+                isOpen={isOpenConfirmDelete}
+                onConfirm={confirmDeleteBooking}
+                onCancel={cancelDeleteBooking}
             />
         </div>
     );

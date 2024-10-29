@@ -6,6 +6,7 @@ import {
     unstable_HistoryRouter,
     useNavigate,
 } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./App.css";
 import HomePage from "./component/HomePage/HomePage";

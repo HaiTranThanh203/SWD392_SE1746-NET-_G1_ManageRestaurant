@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 
-const BookingModal = ({ isOpen, onClose, initialData, onSubmit, mode }) => {
+const BookingModal = ({
+    isOpen,
+    onClose,
+    initialData,
+    onSubmit,
+    mode,
+    availableTables,
+}) => {
     const [formData, setFormData] = useState({
         id: null,
         bookedDate: "",
@@ -57,10 +64,23 @@ const BookingModal = ({ isOpen, onClose, initialData, onSubmit, mode }) => {
             [name]: value,
         }));
     };
+
+    const handleTableChange = (e) => {
+        const selectedTables = Array.from(
+            e.target.selectedOptions,
+            (option) => option.value
+        );
+        setFormData((prevData) => ({
+            ...prevData,
+            tableRestaurants: selectedTables,
+        }));
+    };
+
     const handleClose = () => {
         setErrors({});
         onClose();
     };
+
     const handleSubmit = async () => {
         try {
             await validationSchema.validate(formData, { abortEarly: false });
@@ -69,6 +89,7 @@ const BookingModal = ({ isOpen, onClose, initialData, onSubmit, mode }) => {
             } else {
                 onSubmit(formData);
             }
+            setErrors({});
             onClose();
         } catch (err) {
             const validationErrors = {};
@@ -243,21 +264,29 @@ const BookingModal = ({ isOpen, onClose, initialData, onSubmit, mode }) => {
                                     >
                                         Table(s)
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         id="tableRestaurants"
                                         name="tableRestaurants"
-                                        value={formData.tableRestaurants
-                                            .map((table) => table.name)
-                                            .join(", ")}
-                                        onChange={handleChange}
+                                        value={formData.tableRestaurants}
+                                        onChange={handleTableChange}
                                         className={`block w-full p-2 border ${
                                             errors.tableRestaurants
                                                 ? "border-red-500"
                                                 : "border-gray-300"
                                         } rounded-lg`}
                                         required
-                                    />
+                                    >
+                                        {Array.isArray(availableTables) &&
+                                            availableTables.map((table) => (
+                                                <option
+                                                    key={table.id}
+                                                    value={table.name}
+                                                >
+                                                    {table.name} (Capacity:{" "}
+                                                    {table.capacity})
+                                                </option>
+                                            ))}
+                                    </select>
                                     {errors.tableRestaurants && (
                                         <span className="text-red-500 text-sm">
                                             {errors.tableRestaurants}
@@ -282,13 +311,21 @@ const BookingModal = ({ isOpen, onClose, initialData, onSubmit, mode }) => {
                                 </div>
                             </div>
                         </div>
-                        <div
-                            className="border-t-2 flex justify-center py-2 items-center bg-blue-400 cursor-pointer rounded-b-md"
-                            onClick={handleSubmit}
-                        >
-                            <p className="text-white font-medium uppercase">
-                                Confirm
-                            </p>
+                        <div className="flex justify-between px-4 pb-4">
+                            <button
+                                type="button"
+                                onClick={handleClose}
+                                className="px-4 py-2 text-white bg-gray-600 rounded hover:bg-gray-500"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleSubmit}
+                                className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-500"
+                            >
+                                {mode === "edit" ? "Update" : "Create"}
+                            </button>
                         </div>
                     </div>
                 </div>

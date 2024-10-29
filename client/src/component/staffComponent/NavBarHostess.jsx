@@ -58,7 +58,7 @@ const NavBarHostess = () => {
                                 </p>
                                 <p
                                     className="cursor-pointer hover:text-[blue] font-semibold"
-                                    onClick={() => handleLogout()}
+                                    onClick={() => navigate("/")}
                                 >
                                     Logout
                                 </p>

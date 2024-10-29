@@ -3,9 +3,7 @@ import { useNavigate } from "react-router";
 import LOGO from "../../assets/VIET.png";
 import { MdTableBar, MdLocationOn } from "react-icons/md";
 import NavBarHostess from "../../component/staffComponent/NavBarHostess";
-
 function MapHostess() {
-    // Mock data
     const board = [
         { name: "Table 1", booked: false, orderCurrent: null },
         { name: "Table 2", booked: true, orderCurrent: "Order 123" },
@@ -67,7 +65,23 @@ function MapHostess() {
                         </h1>
                     </div>
 
-                    <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]"></div>
+                    <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
+                        <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
+                            <div
+                                className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
+                                onClick={() =>
+                                    navigate("/hostess/bookingTable")
+                                }
+                            >
+                                <div className="flex items-center gap-[10px]">
+                                    <MdLocationOn color="white" />{" "}
+                                    <p className="text-[14px] leading-[20px] font-normal text-white">
+                                        Map
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
                         <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">
                             Function
