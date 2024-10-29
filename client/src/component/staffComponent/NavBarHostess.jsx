@@ -7,21 +7,14 @@ const NavBarHostess = () => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const [userStorage, setUserStorage] = useState();
-    // const cartList = useSelector(state => state.cart)
-    // const dispatch = useDispatch();
 
     useEffect(() => {}, []);
 
     const showProfile = () => {
-        // alert("helloo")
         setOpen(!open);
     };
 
     const handleLogout = () => {
-        // localStorage.removeItem('token');
-        // // localStorage.removeItem('user');
-        // const action = clearUser();
-        // dispatch(action);
         navigate("/login");
     };
 
@@ -35,9 +28,8 @@ const NavBarHostess = () => {
                         onClick={showProfile}
                     >
                         <div className="flex flex-col justify-center text-center">
-                            {/* <p className='font-semibold'>Lễ tân</p> */}
                             <span className="font-semibold text-sm uppercase">
-                                Lễ tân
+                                hostess
                             </span>
                         </div>
                         <div className="h-[50px] w-[50px] rounded-full bg-[#4E73DF] cursor-pointer flex items-center justify-center relative z-40">
@@ -54,7 +46,7 @@ const NavBarHostess = () => {
                                     className="cursor-pointer hover:text-[blue] font-semibold"
                                     onClick={() => navigate("/hostess/map")}
                                 >
-                                    Sơ đồ{" "}
+                                    Map{" "}
                                 </p>
                                 <p
                                     className="cursor-pointer hover:text-[blue] font-semibold"
@@ -62,13 +54,13 @@ const NavBarHostess = () => {
                                         navigate("/hostess/bookingTable")
                                     }
                                 >
-                                    Đặt bàn
+                                    Order
                                 </p>
                                 <p
                                     className="cursor-pointer hover:text-[blue] font-semibold"
                                     onClick={() => handleLogout()}
                                 >
-                                    Đăng xuất
+                                    Logout
                                 </p>
                             </div>
                         )}
