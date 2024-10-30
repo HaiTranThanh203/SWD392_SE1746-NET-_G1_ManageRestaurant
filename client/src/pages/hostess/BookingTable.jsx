@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import LOGO from "../../assets/zeroTable.jpg";
-import { MdTableBar } from "react-icons/md";
+import { MdLocationOn, MdTableBar } from "react-icons/md";
 import NavBarHostess from "../../component/staffComponent/NavBarHostess";
 import { BsFillCalendarDateFill } from "react-icons/bs";
 import { GiAlarmClock } from "react-icons/gi";
@@ -154,7 +154,21 @@ function BookingTable() {
                             Restaurant
                         </h1>
                     </div>
-
+                    <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
+                        <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
+                            <div
+                                className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
+                                onClick={() => navigate("/hostess/map")}
+                            >
+                                <div className="flex items-center gap-[10px]">
+                                    <MdLocationOn color="white" />{" "}
+                                    <p className="text-[14px] leading-[20px] font-normal text-white">
+                                        Map
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
                         <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">
                             Function
@@ -167,6 +181,17 @@ function BookingTable() {
                                 <MdTableBar color="white" />{" "}
                                 <p className="text-[14px] leading-[20px] font-normal text-white">
                                     Book a table
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
+                            onClick={() => navigate("/hostess/ManagerCustomer")}
+                        >
+                            <div className="flex items-center gap-[10px]">
+                                <MdTableBar color="white" />{" "}
+                                <p className="text-[14px] leading-[20px] font-normal text-white">
+                                    Manager Customer
                                 </p>
                             </div>
                         </div>

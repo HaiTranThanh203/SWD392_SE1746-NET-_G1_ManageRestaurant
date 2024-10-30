@@ -18,7 +18,7 @@ const NavBar = () => {
         { link: "Pricing", path: "pricing" },
     ];
     const handleLogin = () => {
-        navigate("/hostess/map");
+        navigate("/login");
     };
     return (
         <>
