@@ -8,8 +8,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TableRestaurantResponse {
     Long id;
-    String name;
     String description;
-    int numberChairs;
-    boolean booked;
+    int numberChair;
+    boolean status;
 }
