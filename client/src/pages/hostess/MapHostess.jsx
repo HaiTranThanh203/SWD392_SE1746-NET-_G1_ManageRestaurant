@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+<<<<<<< Updated upstream
 import axios from "axios";
 import LOGO from "../../assets/VIET.png";
+=======
+import LOGO from "../../assets/zeroTable.jpg";
+>>>>>>> Stashed changes
 import { MdTableBar, MdLocationOn } from "react-icons/md";
 import NavBarHostess from "../../component/staffComponent/NavBarHostess";
 
@@ -12,9 +16,7 @@ function MapHostess() {
     const [currentTable, setCurrentTable] = useState(null);
     const navigate = useNavigate();
 
-    // Fetch tables and schedules from the backend
     useEffect(() => {
-        // Fetch table data
         axios.get("http://localhost:8080/api/tables/all")
             .then(response => {
                 setTables(response.data);
@@ -23,7 +25,6 @@ function MapHostess() {
                 console.error("Error fetching table data:", error);
             });
 
-        // Fetch schedule data
         axios.get("http://localhost:8080/api/schedules/all")
             .then(response => {
                 setListSchedule(response.data);
@@ -53,20 +54,22 @@ function MapHostess() {
                             className="w-10 inline-block items-center rounded-full mr-2"
                         />
                         <h1 className="text-white text-[20px] leading-[24px] font-extrabold cursor-pointer">
-                            Group4
+                            Restaurant
                         </h1>
                     </div>
 
                     <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
-                        <div
-                            className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
-                            onClick={() => navigate("/hostess/bookingTable")}
-                        >
-                            <div className="flex items-center gap-[10px]">
-                                <MdLocationOn color="white" />{" "}
-                                <p className="text-[14px] leading-[20px] font-normal text-white">
-                                    Map
-                                </p>
+                        <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
+                            <div
+                                className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
+                                onClick={() => navigate("/hostess/map")}
+                            >
+                                <div className="flex items-center gap-[10px]">
+                                    <MdLocationOn color="white" />{" "}
+                                    <p className="text-[14px] leading-[20px] font-normal text-white">
+                                        Map
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,6 +89,17 @@ function MapHostess() {
                                 </p>
                             </div>
                         </div>
+                        <div
+                            className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
+                            onClick={() => navigate("/hostess/ManagerCustomer")}
+                        >
+                            <div className="flex items-center gap-[10px]">
+                                <MdTableBar color="white" />{" "}
+                                <p className="text-[14px] leading-[20px] font-normal text-white">
+                                    Manager Customer
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,7 +107,6 @@ function MapHostess() {
             <div className="basis-[88%] border overflow-scroll h-[100vh]">
                 <NavBarHostess />
                 <div className="min-w-[40]x bg-secondary p-10 shadow min-h-[86vh] mt-2 relative">
-                    {/* Display tables in a grid with 4 columns */}
                     <div className="grid grid-cols-4 gap-4">
                         {tables.map((table, index) => (
                             <div

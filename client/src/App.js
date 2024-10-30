@@ -8,19 +8,25 @@ import "./App.css";
 import HomePage from "./component/HomePage/HomePage";
 import MapHostess from "./pages/hostess/MapHostess";
 import BookingTable from "./pages/hostess/BookingTable";
+import Login from "./component/Login/Login";
+import ManagerCustomer from "./pages/hostess/ManagerCustomer";
 
 function App() {
     return (
         <DndProvider backend={HTML5Backend}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/hostess/map" element={<MapHostess />} />
+                    <Route path="/" element={<HomePage />}></Route>
+                    <Route path="/login" element={<Login />}></Route>
+                    <Route path="/hostess/map" element={<MapHostess />}></Route>
                     <Route
                         path="/hostess/bookingTable"
                         element={<BookingTable />}
-                    />
-                    <Route path="/tables" element={<TableList />} />
+                    ></Route>
+                    <Route
+                        path="/hostess/ManagerCustomer"
+                        element={<ManagerCustomer />}
+                    ></Route>
                 </Routes>
             </BrowserRouter>
         </DndProvider>
