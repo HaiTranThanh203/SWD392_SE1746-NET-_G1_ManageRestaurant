@@ -25,11 +25,4 @@ public class RestaurantTable {
     
     @Column(name = "status")
     private boolean status;
-
-    public RestaurantTable(Integer numberChair, String description, boolean status)
-    {
-        this.numberChair = numberChair;
-        this.description = description;
-        this.status = status;
-    }
 }

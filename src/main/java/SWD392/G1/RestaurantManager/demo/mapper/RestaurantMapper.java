@@ -8,8 +8,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface RestaurantMapper {
     Restaurant toRestaurant(RestaurantRequest request);
+
     RestaurantResponse toRestaurantResponse(Restaurant restaurant);
-
-   
-
 }

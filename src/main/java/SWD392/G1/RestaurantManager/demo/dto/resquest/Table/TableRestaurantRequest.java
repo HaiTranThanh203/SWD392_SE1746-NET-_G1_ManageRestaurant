@@ -7,8 +7,8 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TableRestaurantRequest {
-    int numberChair;
+  int numberChair;
   String description;
   boolean status;
-  
+
 }

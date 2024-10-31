@@ -35,7 +35,7 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
         if (!tableRestaurant.getDescription().equals(request.getDescription()))
             tableRestaurant.setDescription(request.getDescription());
 
-        tableRestaurant.setNumberChair(request.getNumberChairs());
+        tableRestaurant.setNumberChair(request.getNumberChair());
         return mapper.toTableRestaurantResponse(repository.save(tableRestaurant));
     }
 
