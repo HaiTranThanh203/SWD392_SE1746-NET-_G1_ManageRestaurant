@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customers")
 @RequiredArgsConstructor
+
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -24,11 +25,15 @@ public class CustomerController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<CustomerResponse> updateCustomer(@RequestBody CustomerUpdateRequest request) {
-        CustomerResponse response = customerService.updateCustomer(request);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponse> updateCustomer(
+            @PathVariable Long id,
+            @RequestBody CustomerUpdateRequest request) {
+
+        CustomerResponse response = customerService.updateCustomer(id, request);
+        return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {

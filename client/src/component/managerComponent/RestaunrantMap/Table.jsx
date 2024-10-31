@@ -11,14 +11,14 @@ import SQUARE6 from "../../../assets/square6.png";
 import SQUARE8 from "../../../assets/square8.png";
 
 const Table = ({
-    id,
-    typeTable,
-    positionX,
-    positionY,
-    name,
-    orderCurrent,
-    numberChairs,
-}) => {
+                   id,
+                   typeTable,
+                   positionX,
+                   positionY,
+                   name,
+                   orderCurrent,
+                   numberChairs,
+               }) => {
     const [{ isDragging }, drag] = useDrag(
         () => ({
             type: "image",
@@ -29,6 +29,23 @@ const Table = ({
         }),
         [id, typeTable, positionX, positionY]
     );
+
+    const tableImage = () => {
+        if (typeTable === 1) {
+            if (numberChairs === 4) return ROUND4;
+            if (numberChairs === 6) return ROUND6;
+            if (numberChairs === 8) return ROUND8;
+        } else if (typeTable === 2) {
+            if (numberChairs === 4) return SQUARE4;
+            if (numberChairs === 6) return SQUARE6;
+            if (numberChairs === 8) return SQUARE8;
+        } else if (typeTable === 3) {
+            if (numberChairs === 4) return REACTANGE4;
+            if (numberChairs === 6) return REACTANGE6;
+            if (numberChairs === 8) return REACTANGE8;
+        }
+        return null;
+    };
 
     return (
         <div
@@ -43,65 +60,9 @@ const Table = ({
                 opacity: isDragging ? 0.5 : 1,
             }}
         >
-            {numberChairs === 4 && typeTable === 1 && (
+            {tableImage() && (
                 <img
-                    src={ROUND4}
-                    alt={`Table ${id}`}
-                    className="object-cover block w-[150px] h-[150px]"
-                />
-            )}
-            {numberChairs === 6 && typeTable === 1 && (
-                <img
-                    src={ROUND6}
-                    alt={`Table ${id}`}
-                    className="object-cover block w-[150px] h-[150px]"
-                />
-            )}
-            {numberChairs === 8 && typeTable === 1 && (
-                <img
-                    src={ROUND8}
-                    alt={`Table ${id}`}
-                    className="object-cover block w-[150px] h-[150px]"
-                />
-            )}
-            {numberChairs === 4 && typeTable === 2 && (
-                <img
-                    src={SQUARE4}
-                    alt={`Table ${id}`}
-                    className="object-cover block w-[150px] h-[150px]"
-                />
-            )}
-            {numberChairs === 6 && typeTable === 2 && (
-                <img
-                    src={SQUARE6}
-                    alt={`Table ${id}`}
-                    className="object-cover block w-[150px] h-[150px]"
-                />
-            )}
-            {numberChairs === 8 && typeTable === 2 && (
-                <img
-                    src={SQUARE8}
-                    alt={`Table ${id}`}
-                    className="object-cover block w-[150px] h-[150px]"
-                />
-            )}
-            {numberChairs === 4 && typeTable === 3 && (
-                <img
-                    src={REACTANGE4}
-                    alt={`Table ${id}`}
-                    className="object-cover block w-[150px] h-[150px]"
-                />
-            )}
-            {numberChairs === 6 && typeTable === 3 && (
-                <img
-                    src={REACTANGE6}
-                    alt={`Table ${id}`}
-                    className="object-cover block w-[150px] h-[150px]"
-                />
-            )}
-            {numberChairs === 8 && typeTable === 3 && (
-                <img
-                    src={REACTANGE8}
+                    src={tableImage()}
                     alt={`Table ${id}`}
                     className="object-cover block w-[150px] h-[150px]"
                 />
@@ -112,15 +73,12 @@ const Table = ({
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    color: "white",
                     fontWeight: "bold",
                     textAlign: "center",
                     width: "100%",
                     zIndex: 10,
                     color: orderCurrent === null ? "white" : "red",
-                    border: "black",
-                    // color: "white",
-                    pointerEvents: "none", // This ensures the text does not interfere with dragging
+                    pointerEvents: "none",
                 }}
             >
                 {name}

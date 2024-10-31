@@ -10,13 +10,17 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface TableRestaurantMapper {
-    @Mapping(source = "numberChairs", target = "numberChair")
+    // Explicitly mapping numberChair and status fields
+    @Mapping(target = "numberChair", source = "numberChair")
+    @Mapping(target = "status", source = "status")
     RestaurantTable toTableRestaurant(TableRestaurantRequest request);
 
-    @Mapping(source = "numberChair", target = "numberChairs")
+    @Mapping(target = "numberChair", source = "numberChair")
+    @Mapping(target = "status", source = "status")
     TableRestaurantResponse toTableRestaurantResponse(RestaurantTable tableRestaurant);
 
     TableRestaurantRequest toTableRestaurantRequest(TableRestaurantUpdateRequest request);
 
     void updateTable(@MappingTarget RestaurantTable tableRestaurant, TableRestaurantRequest request);
 }
+

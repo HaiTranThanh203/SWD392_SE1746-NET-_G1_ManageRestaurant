@@ -30,18 +30,20 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.toCustomerResponse(customer);
     }
 
+
     @Override
     @Transactional
-    public CustomerResponse updateCustomer(CustomerUpdateRequest request) {
-        Customer customer = customerRepository.findById(request.getId())
+    public CustomerResponse updateCustomer(Long id, CustomerUpdateRequest request) {
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_EXIST));
+
         customer.setPhoneNumber(request.getPhoneNumber());
         customer.setNameCustomer(request.getName());
         customer.setAddressCustomer(request.getAddress());
+
         customerRepository.save(customer);
         return customerMapper.toCustomerResponse(customer);
     }
-
     @Override
     public void deleteCustomer(Long id) {
         if (!customerRepository.existsById(id)) {

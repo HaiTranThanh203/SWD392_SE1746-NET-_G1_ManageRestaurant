@@ -14,5 +14,5 @@ public class CustomerRequest {
      String phoneNumber;
      String name;
      String address;
-     
+     float point;
 }

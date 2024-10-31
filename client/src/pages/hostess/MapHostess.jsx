@@ -1,44 +1,38 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+
+import axios from "axios";
 import LOGO from "../../assets/VIET.png";
-import { MdTableBar, MdLocationOn } from "react-icons/md";
 import NavBarHostess from "../../component/staffComponent/NavBarHostess";
+import {MdLocationOn, MdTableBar} from "react-icons/md";
+
+
+
+
 function MapHostess() {
-    const board = [
-        { name: "Table 1", booked: false, orderCurrent: null },
-        { name: "Table 2", booked: true, orderCurrent: "Order 123" },
-        { name: "Table 3", booked: false, orderCurrent: null },
-        { name: "Table 4", booked: true, orderCurrent: "Order 456" },
-        { name: "Table 5", booked: false, orderCurrent: null },
-        { name: "Table 6", booked: true, orderCurrent: "Order 789" },
-    ];
-
-    const listSchedule = [
-        {
-            customerName: "Nguyen Van A",
-            customerPhone: "0123456789",
-            time: "12:00",
-            numbersOfCustomer: 4,
-            intendTime: "13:00",
-            note: "Request a window seat",
-            status: "PENDING",
-        },
-        {
-            customerName: "Tran Thi B",
-            customerPhone: "0987654321",
-            time: "12:30",
-            numbersOfCustomer: 2,
-            intendTime: "14:00",
-            note: "",
-            status: "ACCEPT",
-        },
-    ];
-
+    const [tables, setTables] = useState([]);
+    const [listSchedule, setListSchedule] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [currentTable, setCurrentTable] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-
     const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/api/tables/all")
+            .then(response => {
+                setTables(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching table data:", error);
+            });
+
+        axios.get("http://localhost:8080/api/schedules/all")
+            .then(response => {
+                setListSchedule(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching schedule data:", error);
+            });
+    }, []);
 
     const handleOpen = (table) => {
         setCurrentTable(table);
@@ -56,12 +50,11 @@ function MapHostess() {
                     <div className="px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3] ">
                         <img
                             src={LOGO}
-                            alt=""
+                            alt="Logo"
                             className="w-10 inline-block items-center rounded-full mr-2"
                         />
                         <h1 className="text-white text-[20px] leading-[24px] font-extrabold cursor-pointer">
-                            {" "}
-                            Group4
+                            Restaurant
                         </h1>
                     </div>
 
@@ -69,9 +62,7 @@ function MapHostess() {
                         <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
                             <div
                                 className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
-                                onClick={() =>
-                                    navigate("/hostess/bookingTable")
-                                }
+                                onClick={() => navigate("/hostess/map")}
                             >
                                 <div className="flex items-center gap-[10px]">
                                     <MdLocationOn color="white" />{" "}
@@ -82,6 +73,7 @@ function MapHostess() {
                             </div>
                         </div>
                     </div>
+
                     <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
                         <p className="text-[10px] font-extrabold leading-[16px] text-white/[0.4]">
                             Function
@@ -97,48 +89,47 @@ function MapHostess() {
                                 </p>
                             </div>
                         </div>
+                        <div
+                            className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer transition ease-in-out duration-300 rounded pl-4 hover:bg-secondary"
+                            onClick={() => navigate("/hostess/ManagerCustomer")}
+                        >
+                            <div className="flex items-center gap-[10px]">
+                                <MdTableBar color="white" />{" "}
+                                <p className="text-[14px] leading-[20px] font-normal text-white">
+                                    Manager Customer
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div className="basis-[88%] border overflow-scroll h-[100vh]">
-                <NavBarHostess />
+                <NavBarHostess />s
                 <div className="min-w-[40]x bg-secondary p-10 shadow min-h-[86vh] mt-2 relative">
-                    <div className="w-full flex flex-wrap justify-between">
-                        {board.map((table, index) => (
+                    <div className="grid grid-cols-4 gap-4">
+                        {tables.map((table, index) => (
                             <div
-                                className={`flex-row p-8 border-2 border-transparent ${
-                                    table.booked ? "bg-lgreen" : "bg-white"
-                                } justify-center w-[12%] mb-2 rounded-lg shadow-lg cursor-pointer hover:opacity-80 transition-all duration-300`}
+                                className={`p-4 border-2 ${
+                                    table.status ? "bg-white" : "bg-white"
+                                } rounded-lg shadow-lg cursor-pointer hover:opacity-80 transition-all duration-300`}
                                 key={index}
                                 onClick={() => handleOpen(table)}
                             >
-                                <div className="text-center">
-                                    <b>{table.name}</b>
+                                <div className="text-center font-bold text-lg">
+                                    {table.name || `Table ${table.id}`}
                                 </div>
-                                <div className="text-center mt-2">
-                                    <hr className="w-1/2 mx-auto border-gray-400" />
-                                    <span
-                                        className={`block mt-2 text-sm font-semibold ${
-                                            table.orderCurrent === null
-                                                ? "text-gray-500"
-                                                : "text-green"
-                                        }`}
-                                    >
-                                        {table.orderCurrent === null
-                                            ? "Empty table"
-                                            : "Occupied"}
-                                    </span>
-                                    <span
-                                        className={`block mt-2 text-sm font-semibold text-blue-600`}
-                                    >
-                                        {table.booked ? "Already booked" : ""}
-                                    </span>
+                                <div className="text-center text-gray-600">
+                                    <p className="mt-2">Chairs: {table.numberChair}</p>
+                                    <p className="mt-2">Description: {table.description || "No description"}</p>
+                                   
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-                {isOpen && (
+
+                {isOpen && currentTable && (
                     <div
                         id="popup-delete"
                         className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 animate-fadeIn"
@@ -147,107 +138,40 @@ function MapHostess() {
                             <button
                                 type="button"
                                 onClick={handleClose}
-                                className="absolute top-3 end-2.5 text-red-600 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                className="absolute top-3 right-2.5 text-red-600 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                             >
-                                <svg
-                                    className="w-3 h-3"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 14 14"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                                    />
-                                </svg>
                                 <span className="sr-only">Close modal</span>
                             </button>
                             <div className="w-full flex justify-center items-center mb-4 border-b-2 pb-2 pt-4 bg-slate-200 rounded-t-lg">
                                 <h2 className="font-bold text-lg">
-                                    Table Reservations - {currentTable.name}
+                                    Table Reservations - {currentTable.name || `Table ${currentTable.id}`}
                                 </h2>
                             </div>
                             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                        <tr>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                Customer
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                Phone Number
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                Time
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                Number of Guests
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                Intended Time
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                Note
-                                            </th>
-                                            <th
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                Status
-                                            </th>
-                                        </tr>
+                                    <tr>
+                                        <th className="px-6 py-3">Customer</th>
+                                        <th className="px-6 py-3">Phone Number</th>
+                                        <th className="px-6 py-3">Time</th>
+                                        <th className="px-6 py-3">Number of Guests</th>
+                                        <th className="px-6 py-3">Intended Time</th>
+                                        <th className="px-6 py-3">Note</th>
+                                        <th className="px-6 py-3">Status</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        {listSchedule.map((schedule, index) => (
-                                            <tr
-                                                key={index}
-                                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                                            >
-                                                <td className="px-6 py-4">
-                                                    {schedule.customerName}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {schedule.customerPhone}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {schedule.time}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {schedule.numbersOfCustomer}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {schedule.intendTime}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {schedule.note}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {schedule.status}
-                                                </td>
-                                            </tr>
-                                        ))}
+                                    {listSchedule.map((schedule, index) => (
+                                        <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <td className="px-6 py-4">{schedule.customerName}</td>
+                                            <td className="px-6 py-4">{schedule.customerPhone}</td>
+                                            <td className="px-6 py-4">{schedule.time}</td>
+                                            <td className="px-6 py-4">{schedule.numbersOfCustomer}</td>
+                                            <td className="px-6 py-4">{schedule.intendTime}</td>
+                                            <td className="px-6 py-4">{schedule.note}</td>
+                                            <td className="px-6 py-4">{schedule.status}</td>
+                                        </tr>
+                                    ))}
                                     </tbody>
                                 </table>
                             </div>
