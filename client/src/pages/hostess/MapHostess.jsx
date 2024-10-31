@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-<<<<<<< Updated upstream
+
 import axios from "axios";
 import LOGO from "../../assets/VIET.png";
-=======
-import LOGO from "../../assets/zeroTable.jpg";
->>>>>>> Stashed changes
-import { MdTableBar, MdLocationOn } from "react-icons/md";
 import NavBarHostess from "../../component/staffComponent/NavBarHostess";
+import {MdLocationOn, MdTableBar} from "react-icons/md";
+
+
+
 
 function MapHostess() {
     const [tables, setTables] = useState([]);
@@ -105,13 +105,13 @@ function MapHostess() {
             </div>
 
             <div className="basis-[88%] border overflow-scroll h-[100vh]">
-                <NavBarHostess />
+                <NavBarHostess />s
                 <div className="min-w-[40]x bg-secondary p-10 shadow min-h-[86vh] mt-2 relative">
                     <div className="grid grid-cols-4 gap-4">
                         {tables.map((table, index) => (
                             <div
                                 className={`p-4 border-2 ${
-                                    table.booked ? "bg-lgreen" : "bg-white"
+                                    table.status ? "bg-white" : "bg-white"
                                 } rounded-lg shadow-lg cursor-pointer hover:opacity-80 transition-all duration-300`}
                                 key={index}
                                 onClick={() => handleOpen(table)}
@@ -120,11 +120,9 @@ function MapHostess() {
                                     {table.name || `Table ${table.id}`}
                                 </div>
                                 <div className="text-center text-gray-600">
-                                    <p className="mt-2">Chairs: {table.numberChairs}</p>
+                                    <p className="mt-2">Chairs: {table.numberChair}</p>
                                     <p className="mt-2">Description: {table.description || "No description"}</p>
-                                    <p className={`mt-2 font-semibold ${table.status ? "text-red-500" : "text-green-500"}`}>
-                                        {table.status ? "Booked" : "Available"}
-                                    </p>
+                                   
                                 </div>
                             </div>
                         ))}
