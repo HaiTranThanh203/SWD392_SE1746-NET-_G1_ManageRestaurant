@@ -44,10 +44,6 @@ const ManagerCustomer = () => {
             });
     };
 
-    const openDeleteModal = (customer) => {
-        setCustomerToDelete(customer);
-        setIsModalOpen(true);
-    };
 
     const handleDeleteCustomer = () => {
         if (customerToDelete) {
