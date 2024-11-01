@@ -89,7 +89,8 @@ const BookingModal = ({
             setErrors({});
             const url = "http://localhost:8080/api/schedules/create";
             const response = await axios.post(url, formData);
-            setSuccessMessage("Booking successfully saved!");
+            console.log("response:",response)
+            setSuccessMessage(response.data);
             setTimeout(() => {
                 setSuccessMessage("");
                 onClose();

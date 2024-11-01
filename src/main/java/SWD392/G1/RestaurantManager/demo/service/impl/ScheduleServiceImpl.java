@@ -5,6 +5,7 @@ import SWD392.G1.RestaurantManager.demo.dto.resquest.ScheduleRequest;
 import SWD392.G1.RestaurantManager.demo.entity.Customer;
 import SWD392.G1.RestaurantManager.demo.entity.RestaurantTable;
 import SWD392.G1.RestaurantManager.demo.entity.Schedule;
+import SWD392.G1.RestaurantManager.demo.entity.ScheduleTable;
 import SWD392.G1.RestaurantManager.demo.enums.SCHEDULE_STATUS;
 import SWD392.G1.RestaurantManager.demo.exception.AppException;
 import SWD392.G1.RestaurantManager.demo.exception.ErrorCode;
@@ -38,10 +39,20 @@ public class ScheduleServiceImpl implements IScheduleService {
     CustomerRepository customerRepository;
     @Autowired
     CustomerMapper customerMapper;
+    // @Autowired
+    // IScheduleTableRepository scheduleTableRepository;
 
     @Override
     public String createSchedule(ScheduleRequest request) {
         LocalTime time = LocalTime.parse(request.getTime());
+        // List<ScheduleTable> scheduleTables = this.scheduleTableRepository.findAll();
+        // for(ScheduleTable st : scheduleTables) {
+        //     var table = st.getTable();
+        //     if(st.getSchedule().getBookDate().equals(request.getBookedDate()) && time.isBefore(st.getSchedule().getTime().plusMinutes(15)))
+        //         return "No available table!";
+        //     if(request.getTables().contains(table.getId()))
+        //         return "Table " + table.getId() + " was booked! Please Selected Another!";
+        // }
         // for (Long tableId : request.getTables()) {
         //     boolean isBooked = !this.scheduleRepository
         //             .findSchedulesByIdAndTimeAndBookDateAndStatus(tableId, request.getBookedDate(), time, time.plusMinutes(30))
@@ -76,17 +87,17 @@ public class ScheduleServiceImpl implements IScheduleService {
             schedule.setDeposit(request.getDeposit());
             schedule.setNumberOfCustomers(request.getNumbersOfCustomer());
             scheduleRepository.save(schedule);
-            return "Đặt bàn thành công!";
+            return "Reservation Created Successfully!";
         }
-        return "Không có bàn trống";
+        return "Please Select Time After Now!";
     }
 
     private boolean ValidateScheduleDetails(ScheduleRequest request) {
         if (request.getBookedDate().isBefore(LocalDate.now()))
-            throw new AppException(ErrorCode.BOOKED_DATE_INVALID);
+            return false;
         LocalTime time = LocalTime.parse(request.getTime());
         if (request.getBookedDate().equals(LocalDate.now()) && time.isBefore(LocalTime.now()))
-            throw new AppException(ErrorCode.BOOKED_DATE_INVALID);
+            return false;
         return true;
     }
 }
