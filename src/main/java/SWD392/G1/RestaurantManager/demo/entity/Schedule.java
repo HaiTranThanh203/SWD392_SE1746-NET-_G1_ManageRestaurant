@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
@@ -27,7 +28,15 @@ public class Schedule {
     @Column(name = "deposit")
     private Double deposit;
 
-    @Column(name = "bookDate")
-    private LocalTime bookDate;
+    @Column(name = "numberOfCustomers")
+    private int numberOfCustomers;
 
+    @Column(name = "bookDate")
+    private LocalDate bookDate;
+
+    @Column(name = "time")
+    private LocalTime time;
+
+    @Column(name = "status")
+    private String status;
 }

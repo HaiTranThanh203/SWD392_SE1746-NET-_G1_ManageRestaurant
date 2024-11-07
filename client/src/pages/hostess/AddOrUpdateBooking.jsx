@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
+import axios from "axios";
 
 const BookingModal = ({
     isOpen,
@@ -21,7 +22,7 @@ const BookingModal = ({
     });
 
     const [errors, setErrors] = useState({});
-
+    const [successMessage, setSuccessMessage] = useState("");
     const validationSchema = Yup.object().shape({
         bookedDate: Yup.date().required("Date is required"),
         time: Yup.string().required("Time is required"),
@@ -79,25 +80,30 @@ const BookingModal = ({
     const handleClose = () => {
         setErrors({});
         onClose();
+        setSuccessMessage("");
     };
 
     const handleSubmit = async () => {
         try {
             await validationSchema.validate(formData, { abortEarly: false });
-            if (mode === "edit") {
-                onSubmit({ ...formData, id: initialData.id });
-            } else {
-                onSubmit(formData);
-            }
             setErrors({});
-            onClose();
+            const url = "http://localhost:8080/api/schedules/create";
+            const response = await axios.post(url, formData);
+            console.log("response:",response)
+            setSuccessMessage(response.data);
+            setTimeout(() => {
+                setSuccessMessage("");
+                onClose();
+            }, 2000);
+            
+            // onSubmit(response)
         } catch (err) {
-            const validationErrors = {};
-            err.inner.forEach((error) => {
-                validationErrors[error.path] = error.message;
-            });
-            setErrors(validationErrors);
-            console.log("bookedDate:", validationErrors);
+            // const validationErrors = {};
+            // err.inner.forEach((error) => {
+            //     validationErrors[error.path] = error.message;
+            // });
+            // setErrors(validationErrors);
+            console.log("bookedDate:", err);
         }
     };
 
@@ -326,6 +332,11 @@ const BookingModal = ({
                             >
                                 {mode === "edit" ? "Update" : "Create"}
                             </button>
+                            {successMessage && (
+                                <div className="text-green-600 text-center mb-4">
+                                    {successMessage}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

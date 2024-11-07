@@ -13,4 +13,8 @@ public interface CustomerMapper {
     @Mapping(source = "nameCustomer", target = "name")
     @Mapping(source = "addressCustomer", target = "address")
     CustomerResponse toCustomerResponse(Customer customer);
+
+    @Mapping(source = "name", target = "nameCustomer")
+    @Mapping(source = "address", target = "addressCustomer")
+    Customer toCustomer(CustomerResponse response);
 }
